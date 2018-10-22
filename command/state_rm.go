@@ -8,7 +8,7 @@ import (
 	"github.com/mitchellh/cli"
 
 	"github.com/hashicorp/terraform/addrs"
-	"github.com/hashicorp/terraform/tfdiags"
+	"github.com/hashicorp/terraform/states"
 )
 
 // StateRmCommand is a Command implementation that shows a single resource.
@@ -23,29 +23,27 @@ func (c *StateRmCommand) Run(args []string) int {
 	}
 
 	cmdFlags := c.Meta.flagSet("state show")
-	var dryRun bool
-	cmdFlags.BoolVar(&dryRun, "dry-run", false, "dry run")
 	cmdFlags.StringVar(&c.backupPath, "backup", "-", "backup")
 	cmdFlags.StringVar(&c.statePath, "state", "", "path")
+	dryRun := cmdFlags.Bool("dry-run", false, "dry run")
 	if err := cmdFlags.Parse(args); err != nil {
 		return cli.RunResultHelp
 	}
 	args = cmdFlags.Args()
-
-	var diags tfdiags.Diagnostics
 
 	if len(args) < 1 {
 		c.Ui.Error("At least one resource address is required.")
 		return 1
 	}
 
+	// Get the state
 	stateMgr, err := c.State()
 	if err != nil {
 		c.Ui.Error(fmt.Sprintf(errStateLoadingState, err))
 		return 1
 	}
 	if err := stateMgr.RefreshState(); err != nil {
-		c.Ui.Error(fmt.Sprintf("Failed to load state: %s", err))
+		c.Ui.Error(fmt.Sprintf("Failed to refresh state: %s", err))
 		return 1
 	}
 
@@ -55,80 +53,91 @@ func (c *StateRmCommand) Run(args []string) int {
 		return 1
 	}
 
-	toRemove := make([]addrs.AbsResourceInstance, len(args))
-	for i, rawAddr := range args {
-		addr, moreDiags := addrs.ParseAbsResourceInstanceStr(rawAddr)
-		diags = diags.Append(moreDiags)
-		toRemove[i] = addr
-	}
-	if diags.HasErrors() {
-		c.showDiagnostics(diags)
-		return 1
-	}
-
-	// We will first check that all of the instances are present, so we can
-	// either remove all of them successfully or make no change at all.
-	// (If we're in dry run mode, this is also where we print out what
-	// we would've done.)
-	var currentCount, deposedCount int
-	var dryRunBuf bytes.Buffer
-	for _, addr := range toRemove {
-		is := state.ResourceInstance(addr)
-		if is == nil {
-			diags = diags.Append(tfdiags.Sourceless(
-				tfdiags.Error,
-				"No such resource instance in state",
-				fmt.Sprintf("There is no resource instance in the current state with the address %s.", addr),
-			))
-			continue
+	var results []*states.FilterResult
+	filter := &states.Filter{State: state}
+	for _, arg := range args {
+		filtered, err := filter.Filter(arg)
+		if err != nil {
+			c.Ui.Error(fmt.Sprintf(errStateFilter, err))
+			return cli.RunResultHelp
 		}
-		if is.Current != nil {
-			currentCount++
-		}
-		deposedCount += len(is.Deposed)
-		if dryRun {
-			if is.Current != nil {
-				fmt.Fprintf(&dryRunBuf, "Would remove %s\n", addr)
-			}
-			for k := range is.Deposed {
-				fmt.Fprintf(&dryRunBuf, "Would remove %s deposed object %s\n", addr, k)
+	filtered:
+		for _, result := range filtered {
+			switch result.Address.(type) {
+			case addrs.ModuleInstance:
+				for _, result := range filtered {
+					if _, ok := result.Address.(addrs.ModuleInstance); ok {
+						results = append(results, result)
+					}
+				}
+				break filtered
+			case addrs.AbsResource:
+				for _, result := range filtered {
+					if _, ok := result.Address.(addrs.AbsResource); ok {
+						results = append(results, result)
+					}
+				}
+				break filtered
+			case addrs.AbsResourceInstance:
+				results = append(results, result)
 			}
 		}
 	}
-	if diags.HasErrors() {
-		c.showDiagnostics(diags)
-		return 1
-	}
 
-	if dryRun {
-		c.Ui.Output(fmt.Sprintf("%s\nWould've removed %d current and %d deposed objects, without -dry-run.", dryRunBuf.String(), currentCount, deposedCount))
+	// If we are in dry run mode, print out what we would've done.
+	if *dryRun {
+		dryRunBuf := bytes.NewBuffer(nil)
+		for _, result := range results {
+			switch addr := result.Address.(type) {
+			case addrs.ModuleInstance:
+				output := " containing:\n"
+				for _, rs := range result.Value.(*states.Module).Resources {
+					for k := range rs.Instances {
+						output += fmt.Sprintf("  * %s\n", rs.Addr.Absolute(addr).Instance(k))
+					}
+				}
+				if output == " containing:\n" {
+					output = "\n"
+				}
+				fmt.Fprintf(dryRunBuf, "Would remove module %q%s", addr.String(), output)
+			case addrs.AbsResource:
+				fmt.Fprintf(dryRunBuf, "Would remove resource %s\n", addr.String())
+			case addrs.AbsResourceInstance:
+				fmt.Fprintf(dryRunBuf, "Would remove resource instance %s\n", addr.String())
+			}
+		}
+
+		result := fmt.Sprintf(strings.TrimSuffix(dryRunBuf.String(), "\n"))
+		if result == "" {
+			result = "Would have removed nothing."
+		}
+		c.Ui.Output(result)
 		return 0 // This is as far as we go in dry-run mode
 	}
 
-	// Now we will actually remove them. Due to our validation above, we should
-	// succeed in removing every one.
-	// We'll use the "SyncState" wrapper to do this not because we're doing
-	// any concurrent work here (we aren't) but because it guarantees to clean
-	// up any leftover empty module we might leave behind.
+	// Now we will actually remove them. We'll use the "SyncState" wrapper to
+	// do this not because we're doing any concurrent work here (we aren't) but
+	// because it guarantees to clean up any leftover empty module we might
+	// leave behind.
 	ss := state.SyncWrapper()
-	for _, addr := range toRemove {
-		ss.ForgetResourceInstanceAll(addr)
-	}
-
-	switch {
-	case currentCount == 0:
-		c.Ui.Output(fmt.Sprintf("Removed %d deposed objects.", deposedCount))
-	case deposedCount == 0:
-		c.Ui.Output(fmt.Sprintf("Removed %d objects.", currentCount))
-	default:
-		c.Ui.Output(fmt.Sprintf("Removed %d current and %d deposed objects.", currentCount, deposedCount))
+	for _, result := range results {
+		switch addr := result.Address.(type) {
+		case addrs.ModuleInstance:
+			c.Ui.Output(fmt.Sprintf("Remove module %s", addr.String()))
+			ss.RemoveModule(addr)
+		case addrs.AbsResource:
+			c.Ui.Output(fmt.Sprintf("Remove resource %s", addr.String()))
+			ss.RemoveResource(addr)
+		case addrs.AbsResourceInstance:
+			c.Ui.Output(fmt.Sprintf("Remove resource instance %s", addr.String()))
+			ss.ForgetResourceInstanceAll(addr)
+		}
 	}
 
 	if err := stateMgr.WriteState(state); err != nil {
 		c.Ui.Error(fmt.Sprintf(errStateRmPersist, err))
 		return 1
 	}
-
 	if err := stateMgr.PersistState(); err != nil {
 		c.Ui.Error(fmt.Sprintf(errStateRmPersist, err))
 		return 1
