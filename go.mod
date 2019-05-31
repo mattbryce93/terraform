@@ -117,7 +117,7 @@ require (
 	github.com/smartystreets/assertions v0.0.0-20180927180507-b2de0cb4f26d // indirect
 	github.com/smartystreets/goconvey v0.0.0-20180222194500-ef6db91d284a // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
-	github.com/spf13/afero v1.0.2
+	github.com/spf13/afero v1.2.2
 	github.com/terraform-providers/terraform-provider-aws v1.40.0
 	github.com/terraform-providers/terraform-provider-openstack v0.0.0-20170616075611-4080a521c6ea
 	github.com/terraform-providers/terraform-provider-template v1.0.0 // indirect
