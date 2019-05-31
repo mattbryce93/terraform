@@ -2,7 +2,7 @@ module github.com/hashicorp/terraform
 
 require (
 	cloud.google.com/go v0.15.0
-	github.com/Azure/azure-sdk-for-go v10.3.0-beta+incompatible
+	github.com/Azure/azure-sdk-for-go v10.3.1-beta+incompatible
 	github.com/Azure/go-autorest v8.3.1+incompatible
 	github.com/Azure/go-ntlmssp v0.0.0-20170803034930-c92175d54006 // indirect
 	github.com/ChrisTrenkamp/goxpath v0.0.0-20170625215350-4fe035839290 // indirect
