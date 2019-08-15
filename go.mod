@@ -90,7 +90,7 @@ require (
 	github.com/masterzen/winrm v0.0.0-20180224160350-7e40f93ae939
 	github.com/mattn/go-colorable v0.0.0-20160220075935-9cbef7c35391
 	github.com/mattn/go-isatty v0.0.0-20161123143637-30a891c33c7c // indirect
-	github.com/mattn/go-shellwords v1.0.1
+	github.com/mattn/go-shellwords v1.0.6
 	github.com/miekg/dns v1.0.8 // indirect
 	github.com/mitchellh/cli v0.0.0-20171129193617-33edc47170b5
 	github.com/mitchellh/colorstring v0.0.0-20150917214807-8631ce90f286
