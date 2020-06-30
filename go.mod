@@ -108,7 +108,6 @@ require (
 	github.com/oklog/run v1.0.0 // indirect
 	github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58
 	github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c // indirect
-	github.com/pkg/errors v0.0.0-20170505043639-c605e284fe17 // indirect
 	github.com/posener/complete v0.0.0-20171219111128-6bee943216c8
 	github.com/satori/go.uuid v0.0.0-20160927100844-b061729afc07 // indirect
 	github.com/satori/uuid v0.0.0-20160927100844-b061729afc07 // indirect
@@ -117,7 +116,7 @@ require (
 	github.com/smartystreets/assertions v0.0.0-20180927180507-b2de0cb4f26d // indirect
 	github.com/smartystreets/goconvey v0.0.0-20180222194500-ef6db91d284a // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
-	github.com/spf13/afero v1.0.2
+	github.com/spf13/afero v1.3.1
 	github.com/terraform-providers/terraform-provider-aws v1.40.0
 	github.com/terraform-providers/terraform-provider-openstack v0.0.0-20170616075611-4080a521c6ea
 	github.com/terraform-providers/terraform-provider-template v1.0.0 // indirect
@@ -134,10 +133,9 @@ require (
 	go.uber.org/atomic v1.3.2 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1 // indirect
-	golang.org/x/crypto v0.0.0-20180910181607-0e37d006457b
-	golang.org/x/net v0.0.0-20181017193950-04a2e542c03f
+	golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586
+	golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3
 	golang.org/x/oauth2 v0.0.0-20181003184128-c57b0facaced
-	golang.org/x/sys v0.0.0-20180925112736-b09afc3d579e // indirect
 	golang.org/x/time v0.0.0-20180412165947-fbb02b2291d2 // indirect
 	google.golang.org/api v0.0.0-20181015145326-625cd1887957
 	google.golang.org/appengine v1.2.0 // indirect
