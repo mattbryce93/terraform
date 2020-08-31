@@ -1,7 +1,8 @@
 module github.com/hashicorp/terraform
 
 require (
-	cloud.google.com/go v0.15.0
+	cloud.google.com/go v0.65.0
+	git.apache.org/thrift.git v0.0.0-20180902110319-2566ecd5d999 // indirect
 	github.com/Azure/azure-sdk-for-go v10.3.0-beta+incompatible
 	github.com/Azure/go-autorest v8.3.1+incompatible
 	github.com/Azure/go-ntlmssp v0.0.0-20170803034930-c92175d54006 // indirect
@@ -19,13 +20,12 @@ require (
 	github.com/armon/go-radix v0.0.0-20160115234725-4239b77079c7 // indirect
 	github.com/aws/aws-sdk-go v1.15.48
 	github.com/beevik/etree v0.0.0-20171015221209-af219c0c7ea1 // indirect
+	github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/bgentry/speakeasy v0.0.0-20161015143505-675b82c74c0e // indirect
 	github.com/blang/semver v0.0.0-20170202183821-4a1e882c79dc
 	github.com/boltdb/bolt v1.3.1 // indirect
-	github.com/chzyer/logex v1.1.10 // indirect
-	github.com/chzyer/readline v0.0.0-20161106042343-c914be64f07d
-	github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1 // indirect
+	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e
 	github.com/coreos/bbolt v1.3.0 // indirect
 	github.com/coreos/etcd v3.3.10+incompatible
 	github.com/coreos/go-semver v0.2.0 // indirect
@@ -39,12 +39,9 @@ require (
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-test/deep v1.0.1
 	github.com/gogo/protobuf v0.0.0-20180821102207-98f6aa8b3bcf // indirect
-	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b // indirect
-	github.com/golang/groupcache v0.0.0-20180513044358-24b0969c4cb7 // indirect
-	github.com/golang/mock v1.1.1
-	github.com/golang/protobuf v1.2.0
-	github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c // indirect
-	github.com/google/go-cmp v0.2.0
+	github.com/golang/mock v1.4.4
+	github.com/golang/protobuf v1.4.2
+	github.com/google/go-cmp v0.5.1
 	github.com/googleapis/gax-go v0.0.0-20161107002406-da06d194a00e // indirect
 	github.com/gophercloud/gophercloud v0.0.0-20170524130959-3027adb1ce72
 	github.com/gopherjs/gopherjs v0.0.0-20181004151105-1babbf986f6f // indirect
@@ -68,7 +65,6 @@ require (
 	github.com/hashicorp/go-sockaddr v0.0.0-20180320115054-6d291a969b86 // indirect
 	github.com/hashicorp/go-uuid v1.0.0
 	github.com/hashicorp/go-version v0.0.0-20180322230233-23480c066577
-	github.com/hashicorp/golang-lru v0.5.0 // indirect
 	github.com/hashicorp/hcl v0.0.0-20170504190234-a4b07c25de5f
 	github.com/hashicorp/hcl2 v0.0.0-20180925175540-3f1c5474d4f7
 	github.com/hashicorp/hil v0.0.0-20170627220502-fa9f258a9250
@@ -91,6 +87,7 @@ require (
 	github.com/mattn/go-colorable v0.0.0-20160220075935-9cbef7c35391
 	github.com/mattn/go-isatty v0.0.0-20161123143637-30a891c33c7c // indirect
 	github.com/mattn/go-shellwords v1.0.1
+	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/miekg/dns v1.0.8 // indirect
 	github.com/mitchellh/cli v0.0.0-20171129193617-33edc47170b5
 	github.com/mitchellh/colorstring v0.0.0-20150917214807-8631ce90f286
@@ -106,10 +103,14 @@ require (
 	github.com/mitchellh/reflectwalk v0.0.0-20170726202117-63d60e9d0dbc
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
 	github.com/oklog/run v1.0.0 // indirect
+	github.com/openzipkin/zipkin-go v0.1.1 // indirect
 	github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58
 	github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c // indirect
 	github.com/pkg/errors v0.0.0-20170505043639-c605e284fe17 // indirect
 	github.com/posener/complete v0.0.0-20171219111128-6bee943216c8
+	github.com/prometheus/client_golang v0.8.0 // indirect
+	github.com/prometheus/common v0.0.0-20180801064454-c7de2306084e // indirect
+	github.com/prometheus/procfs v0.0.0-20180725123919-05ee40e3a273 // indirect
 	github.com/satori/go.uuid v0.0.0-20160927100844-b061729afc07 // indirect
 	github.com/satori/uuid v0.0.0-20160927100844-b061729afc07 // indirect
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
@@ -130,17 +131,13 @@ require (
 	github.com/xiang90/probing v0.0.0-20160813154853-07dd2e8dfe18 // indirect
 	github.com/xlab/treeprint v0.0.0-20161029104018-1d6e34225557
 	github.com/zclconf/go-cty v0.0.0-20181017232614-01c5aba823a6
-	go.opencensus.io v0.17.0 // indirect
 	go.uber.org/atomic v1.3.2 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1 // indirect
-	golang.org/x/crypto v0.0.0-20180910181607-0e37d006457b
-	golang.org/x/net v0.0.0-20181017193950-04a2e542c03f
-	golang.org/x/oauth2 v0.0.0-20181003184128-c57b0facaced
-	golang.org/x/sys v0.0.0-20180925112736-b09afc3d579e // indirect
-	golang.org/x/time v0.0.0-20180412165947-fbb02b2291d2 // indirect
-	google.golang.org/api v0.0.0-20181015145326-625cd1887957
-	google.golang.org/appengine v1.2.0 // indirect
-	google.golang.org/grpc v1.14.0
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+	golang.org/x/net v0.0.0-20200822124328-c89045814202
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
+	google.golang.org/api v0.30.0
+	google.golang.org/grpc v1.31.0
 	gopkg.in/vmihailenco/msgpack.v2 v2.9.1 // indirect
 )
