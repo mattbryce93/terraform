@@ -17,7 +17,7 @@ require (
 	github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/armon/go-radix v0.0.0-20160115234725-4239b77079c7 // indirect
-	github.com/aws/aws-sdk-go v1.15.48
+	github.com/aws/aws-sdk-go v1.37.25
 	github.com/beevik/etree v0.0.0-20171015221209-af219c0c7ea1 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/bgentry/speakeasy v0.0.0-20161015143505-675b82c74c0e // indirect
@@ -78,7 +78,6 @@ require (
 	github.com/hashicorp/vault v0.0.0-20161029210149-9a60bf2a50e4
 	github.com/hashicorp/yamux v0.0.0-20160720233140-d1caa6c97c9f // indirect
 	github.com/jen20/awspolicyequivalence v0.0.0-20170831201602-3d48364a137a // indirect
-	github.com/jmespath/go-jmespath v0.0.0-20160803190731-bd40a432e4c7 // indirect
 	github.com/jonboulle/clockwork v0.1.0 // indirect
 	github.com/joyent/triton-go v0.0.0-20180313100802-d8f9c0314926
 	github.com/jtolds/gls v4.2.1+incompatible // indirect
@@ -108,7 +107,6 @@ require (
 	github.com/oklog/run v1.0.0 // indirect
 	github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58
 	github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c // indirect
-	github.com/pkg/errors v0.0.0-20170505043639-c605e284fe17 // indirect
 	github.com/posener/complete v0.0.0-20171219111128-6bee943216c8
 	github.com/satori/go.uuid v0.0.0-20160927100844-b061729afc07 // indirect
 	github.com/satori/uuid v0.0.0-20160927100844-b061729afc07 // indirect
@@ -134,10 +132,9 @@ require (
 	go.uber.org/atomic v1.3.2 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1 // indirect
-	golang.org/x/crypto v0.0.0-20180910181607-0e37d006457b
-	golang.org/x/net v0.0.0-20181017193950-04a2e542c03f
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b
 	golang.org/x/oauth2 v0.0.0-20181003184128-c57b0facaced
-	golang.org/x/sys v0.0.0-20180925112736-b09afc3d579e // indirect
 	golang.org/x/time v0.0.0-20180412165947-fbb02b2291d2 // indirect
 	google.golang.org/api v0.0.0-20181015145326-625cd1887957
 	google.golang.org/appengine v1.2.0 // indirect
